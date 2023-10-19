@@ -1,5 +1,5 @@
 import { Field, Float, ID, ObjectType } from '@nestjs/graphql';
-import { GraphQLLocalTime } from 'graphql-scalars';
+import { GraphQLLocalTime, GraphQLPhoneNumber } from 'graphql-scalars';
 
 @ObjectType()
 export class Store {
@@ -18,6 +18,9 @@ export class Store {
 
   @Field(() => GraphQLLocalTime)
   workTo: string;
+
+  @Field(() => GraphQLPhoneNumber)
+  contactNo?: string;
 
   @Field(() => Boolean, { defaultValue: true })
   active?: boolean;

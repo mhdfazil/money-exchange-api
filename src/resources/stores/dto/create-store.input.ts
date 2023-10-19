@@ -1,5 +1,5 @@
 import { Field, Float, InputType } from '@nestjs/graphql';
-import { GraphQLLocalTime } from 'graphql-scalars';
+import { GraphQLLocalTime, GraphQLPhoneNumber } from 'graphql-scalars';
 
 @InputType()
 export class CreateStoreInput {
@@ -15,4 +15,7 @@ export class CreateStoreInput {
 
   @Field(() => GraphQLLocalTime)
   workTo: string;
+
+  @Field(() => GraphQLPhoneNumber)
+  contactNo?: string;
 }

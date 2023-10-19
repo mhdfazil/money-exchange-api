@@ -7,6 +7,7 @@ type Store {
   location: [Float!]!
   workFrom: LocalTime!
   workTo: LocalTime!
+  contactNo: PhoneNumber
   active: Boolean
   name: String!
   address: String!
@@ -18,6 +19,11 @@ type Store {
 A local time string (i.e., with no associated timezone) in 24-hr `HH:mm[:ss[.SSS]]` format, e.g. `14:25` or `14:25:06` or `14:25:06.123`.
 """
 scalar LocalTime
+
+"""
+A field whose value conforms to the standard E.164 format as specified in: https://en.wikipedia.org/wiki/E.164. Basically this is +17895551234.
+"""
+scalar PhoneNumber
 
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
@@ -39,11 +45,29 @@ A field whose value conforms to the standard internet email address format as sp
 """
 scalar EmailAddress @specifiedBy(url: "https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address")
 
+type Currency {
+  id: ID!
+  code: CurrencyCode!
+  countryCode: CountryCode
+  name: String!
+  country: String
+}
+
+"""
+A field whose value is a Currency: https://en.wikipedia.org/wiki/ISO_4217.
+"""
+scalar CurrencyCode @specifiedBy(url: "https://en.wikipedia.org/wiki/ISO_4217")
+
+"""A country code as defined by ISO 3166-1 alpha-2"""
+scalar CountryCode
+
 type Query {
   stores: [Store!]!
   store(id: Int!): Store!
   users: [User!]!
   user(id: Int!): User!
+  currencies: [Currency!]!
+  currency(id: Int!): Currency!
 }
 
 type Mutation {
@@ -53,12 +77,16 @@ type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
+  createCurrency(createCurrencyInput: CreateCurrencyInput!): Currency!
+  updateCurrency(updateCurrencyInput: UpdateCurrencyInput!): Currency!
+  removeCurrency(id: Int!): Currency!
 }
 
 input CreateStoreInput {
   location: [Float!]!
   workFrom: LocalTime!
   workTo: LocalTime!
+  contactNo: PhoneNumber
   name: String!
   address: String!
 }
@@ -67,6 +95,7 @@ input UpdateStoreInput {
   location: [Float!]
   workFrom: LocalTime
   workTo: LocalTime
+  contactNo: PhoneNumber
   name: String
   address: String
   id: ID!
@@ -84,4 +113,19 @@ input UpdateUserInput {
   password: String
   id: Int!
   image: String
+}
+
+input CreateCurrencyInput {
+  code: CurrencyCode!
+  countryCode: CountryCode
+  name: String!
+  country: String
+}
+
+input UpdateCurrencyInput {
+  code: CurrencyCode
+  countryCode: CountryCode
+  name: String
+  country: String
+  id: ID!
 }
