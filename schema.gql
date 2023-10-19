@@ -24,15 +24,35 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type User {
+  id: ID!
+  email: EmailAddress!
+  name: String!
+  password: String!
+  image: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""
+A field whose value conforms to the standard internet email address format as specified in HTML Spec: https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address.
+"""
+scalar EmailAddress @specifiedBy(url: "https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address")
+
 type Query {
   stores: [Store!]!
   store(id: Int!): Store!
+  users: [User!]!
+  user(id: Int!): User!
 }
 
 type Mutation {
   createStore(createStoreInput: CreateStoreInput!): Store!
   updateStore(updateStoreInput: UpdateStoreInput!): Store!
   removeStore(id: Int!): Store!
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: Int!): User!
 }
 
 input CreateStoreInput {
@@ -50,4 +70,18 @@ input UpdateStoreInput {
   name: String
   address: String
   id: ID!
+}
+
+input CreateUserInput {
+  email: EmailAddress!
+  name: String!
+  password: String!
+}
+
+input UpdateUserInput {
+  email: EmailAddress
+  name: String
+  password: String
+  id: Int!
+  image: String
 }
