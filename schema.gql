@@ -1,0 +1,53 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Store {
+  id: ID!
+  location: [Float!]!
+  workFrom: LocalTime!
+  workTo: LocalTime!
+  active: Boolean
+  name: String!
+  address: String!
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+"""
+A local time string (i.e., with no associated timezone) in 24-hr `HH:mm[:ss[.SSS]]` format, e.g. `14:25` or `14:25:06` or `14:25:06.123`.
+"""
+scalar LocalTime
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Query {
+  stores: [Store!]!
+  store(id: Int!): Store!
+}
+
+type Mutation {
+  createStore(createStoreInput: CreateStoreInput!): Store!
+  updateStore(updateStoreInput: UpdateStoreInput!): Store!
+  removeStore(id: Int!): Store!
+}
+
+input CreateStoreInput {
+  location: [Float!]!
+  workFrom: LocalTime!
+  workTo: LocalTime!
+  name: String!
+  address: String!
+}
+
+input UpdateStoreInput {
+  location: [Float!]
+  workFrom: LocalTime
+  workTo: LocalTime
+  name: String
+  address: String
+  id: ID!
+}
